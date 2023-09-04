@@ -33,8 +33,8 @@ $cidadesDesejadas = [
     // Adicione outras cidades desejadas aqui
 ];
 
-// Criar um array associativo para armazenar os valores de acumulado
-$acumulado = [];
+// Criar um array associativo para armazenar os valores de acumulado e ultimovalor
+$dadosCidades = [];
 
 // Preencher o array associativo com os valores disponíveis
 foreach ($text as $item) {
@@ -47,8 +47,10 @@ foreach ($text as $item) {
     $acc48hr = $item['acc48hr'];
     $acc72hr = $item['acc72hr'];
     $acc96hr = $item['acc96hr'];
+    $ultimovalor = $item['ultimovalor'];
     
-    $acumulado[$cidade] = [
+    $dadosCidades[$cidade] = [
+        'ultimovalor' => $ultimovalor,
         'acc1hr' => $acc1hr,
         'acc3hr' => $acc3hr,
         'acc6hr' => $acc6hr,
@@ -59,20 +61,54 @@ foreach ($text as $item) {
         'acc96hr' => $acc96hr,
     ];
 }
-
-// Exibir os valores de acumulado de chuva para as cidades desejadas
-foreach ($cidadesDesejadas as $cidadeDesejada) {
-    $valores = isset($acumulado[$cidadeDesejada]) ? $acumulado[$cidadeDesejada] : [
-        'acc1hr' => '-',
-        'acc3hr' => '-',
-        'acc6hr' => '-',
-        'acc12hr' => '-',
-        'acc24hr' => '-',
-        'acc48hr' => '-',
-        'acc72hr' => '-',
-        'acc96hr' => '-',
-    ];
-    
-    echo "$cidadeDesejada \t {$valores['acc1hr']} \t {$valores['acc3hr']} \t {$valores['acc6hr']} \t {$valores['acc12hr']} \t {$valores['acc24hr']} \t {$valores['acc48hr']} \t {$valores['acc72hr']} \t {$valores['acc96hr']} <br>";
-}
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Acumulado de Chuva</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>Cidade</th>
+            <th>Último Valor</th>
+            <th>1hr</th>
+            <th>3hr</th>
+            <th>6hr</th>
+            <th>12hr</th>
+            <th>24hr</th>
+            <th>48hr</th>
+            <th>72hr</th>
+            <th>96hr</th>
+        </tr>
+        <?php foreach ($cidadesDesejadas as $cidadeDesejada) : ?>
+            <tr>
+                <td><?php echo $cidadeDesejada; ?></td>
+                <?php
+                $valores = isset($dadosCidades[$cidadeDesejada]) ? $dadosCidades[$cidadeDesejada] : [
+                    'ultimovalor' => '-',
+                    'acc1hr' => '-',
+                    'acc3hr' => '-',
+                    'acc6hr' => '-',
+                    'acc12hr' => '-',
+                    'acc24hr' => '-',
+                    'acc48hr' => '-',
+                    'acc72hr' => '-',
+                    'acc96hr' => '-',
+                ];
+                ?>
+                <td><?php echo $valores['ultimovalor']; ?></td>
+                <td><?php echo $valores['acc1hr']; ?></td>
+                <td><?php echo $valores['acc3hr']; ?></td>
+                <td><?php echo $valores['acc6hr']; ?></td>
+                <td><?php echo $valores['acc12hr']; ?></td>
+                <td><?php echo $valores['acc24hr']; ?></td>
+                <td><?php echo $valores['acc48hr']; ?></td>
+                <td><?php echo $valores['acc72hr']; ?></td>
+                <td><?php echo $valores['acc96hr']; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+</body>
+</html>
